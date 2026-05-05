@@ -1,7 +1,6 @@
 # hackbar-mod-chrome-extension
 
-HackBar Mod Chrome Port is a Chrome DevTools extension inspired by classic HackBar-style testing panels.  
-It provides a simple payload workspace inside Chrome DevTools with organized menus for SQL injection learning, URL encoding/decoding, WAF payload formatting, shell-related SQL payload helpers, and privilege enumeration helpers.
+HackBar Mod Chrome extension is a Chrome DevTools extension for SQLi payloads, URL encoding, WAF testing helpers, shell/file SQL helpers, and privilege enumeration in authorized labs and CTF environments.
 
 > This project is intended for legal security testing, CTF labs, training environments, and authorized penetration testing only.
 
