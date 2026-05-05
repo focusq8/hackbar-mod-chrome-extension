@@ -1,4 +1,4 @@
-# HackBar Mod Chrome Port
+# hackbar-mod-chrome-extension
 
 HackBar Mod Chrome Port is a Chrome DevTools extension inspired by classic HackBar-style testing panels.  
 It provides a simple payload workspace inside Chrome DevTools with organized menus for SQL injection learning, URL encoding/decoding, WAF payload formatting, shell-related SQL payload helpers, and privilege enumeration helpers.
