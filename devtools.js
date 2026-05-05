@@ -1,0 +1,1 @@
+chrome.devtools.panels.create("HackBar", "", "panel.html");

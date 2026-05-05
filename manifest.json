@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "HackBar Mod Chrome Port",
+  "version": "1.0.0",
+  "description": "Old HackBar-style DevTools panel with nested SQLi menus, smart replace, and URL tools.",
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+  "devtools_page": "devtools.html"
+}

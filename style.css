@@ -1,0 +1,109 @@
+
+* { box-sizing: border-box; }
+body {
+  background: #d7d7d7;
+  color: #111;
+  font-family: Arial, sans-serif;
+  padding: 8px;
+  margin: 0;
+}
+.app {
+  width: 100%;
+}
+.toolbar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: #f4f4f4;
+  border: 1px solid #aaa;
+  padding: 4px;
+  margin-top: 0;
+  margin-bottom: 8px;
+  overflow: visible;
+}
+.menu { position: relative; display: inline-block; }
+.menu-btn {
+  background: linear-gradient(#fff, #ddd);
+  border: 1px solid #888;
+  color: #111;
+  padding: 6px 12px;
+  min-width: 90px;
+  cursor: pointer;
+  text-align: left;
+}
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 260px;
+  background: #f8f8f8;
+  border: 1px solid #888;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  z-index: 99999;
+}
+.dropdown.small { min-width: 190px; }
+.menu:hover > .dropdown { display: block; }
+.menu.menu-closed > .dropdown,
+.menu.menu-closed .submenu { display: none !important; }
+.item {
+  position: relative;
+  padding: 7px 30px 7px 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 14px;
+}
+.item:hover { background: #8ec5ff; }
+.item.has-sub::after {
+  content: "›";
+  position: absolute;
+  right: 10px;
+  font-weight: bold;
+}
+.submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  min-width: 260px;
+  background: #f8f8f8;
+  border: 1px solid #888;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+.item.has-sub:hover > .submenu { display: block; }
+.workbench {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.button-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+.button-column button {
+  width: 110px;
+  border: 0;
+  border-radius: 4px;
+  color: white;
+  padding: 8px 10px;
+  cursor: pointer;
+  text-align: left;
+}
+.green { background: #15803d; }
+.blue { background: #2563eb; }
+.red { background: #dc2626; }
+textarea {
+  flex: 1;
+  min-height: 160px;
+  background: #fff;
+  color: #111;
+  border: 1px solid #888;
+  padding: 8px;
+  font-family: Consolas, monospace;
+  font-size: 14px;
+  resize: vertical;
+}
+.submenu.wide { min-width: 360px; }
