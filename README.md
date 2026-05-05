@@ -1,21 +1,60 @@
-# hackbar-mod-chrome-extension
+# HackBar Mod Chrome Extension
 
-HackBar Mod Chrome extension is a Chrome DevTools extension for SQLi payloads, URL encoding, WAF testing helpers, shell/file SQL helpers, and privilege enumeration in authorized labs and CTF environments.
+HackBar Mod Chrome Extension is a Chrome DevTools extension for SQLi payloads, URL encoding, WAF testing helpers, shell/file SQL helpers, and privilege enumeration in authorized labs and CTF environments.
 
-Installation
-Download or clone this repository.
-Open Chrome.
-Go to:
+> This project is intended for legal security testing, CTF labs, training environments, and authorized penetration testing only.
+
+---
+
+## Features
+
+- Chrome DevTools panel named **HackBar**
+- SQLi payload menu
+- URL encode/decode tools
+- Base64 encode/decode tools
+- HEX encode/decode tools
+- WAF testing helper payloads
+- Shell/file SQL helper payloads
+- Privilege enumeration helper payloads
+- Payload editor with Execute, Load URL, and Clear buttons
+
+---
+
+## Installation
+
+1. Download or clone this repository.
+2. Open Chrome.
+3. Go to:
+
+```text
 chrome://extensions/
-Enable:
+````
+
+4. Enable:
+
+```text
 Developer mode
-Click:
+```
+
+5. Click:
+
+```text
 Load unpacked
-Select the extension folder.
-Open DevTools.
-Click the new panel:
+```
+
+6. Select the extension folder.
+7. Open Chrome DevTools.
+8. Click the new panel:
+
+```text
 HackBar
-Project Structure
+```
+
+---
+
+## Project Structure
+
+```text
 .
 ├── manifest.json
 ├── devtools.html
@@ -23,48 +62,61 @@ Project Structure
 ├── panel.html
 ├── panel.js
 └── style.css
-manifest.json
+```
+
+---
+
+## File Description
+
+### manifest.json
 
 Chrome extension manifest file.
 
-devtools.html
+### devtools.html
 
 Loads the DevTools script.
 
-devtools.js
+### devtools.js
 
-Creates the custom DevTools panel.
+Creates the custom Chrome DevTools panel.
 
-panel.html
+### panel.html
 
 Contains the panel interface, menus, buttons, and payload textarea.
 
-panel.js
+### panel.js
 
 Contains payload insertion logic, dynamic prompt builders, encoding/decoding tools, and DevTools execution behavior.
 
-style.css
+### style.css
 
 Controls the layout and visual style of the panel.
 
-Usage Notes
+---
+
+## Usage Notes
 
 This tool does not automatically test or exploit targets.
+
 It only helps organize and insert common payloads into a DevTools-based workspace.
 
 Use it only on:
 
-Your own applications
-CTF labs
-Training platforms
-Authorized bug bounty programs
-Authorized penetration testing engagements
-Disclaimer
+* Your own applications
+* CTF labs
+* Training platforms
+* Authorized bug bounty programs
+* Authorized penetration testing engagements
+
+---
+
+## Disclaimer
 
 This project is provided for educational and authorized security testing purposes only.
+
 The developer is not responsible for any misuse or unauthorized activity performed with this tool.
 
 Always get proper permission before testing any system.
 
-
-> This project is intended for legal security testing, CTF labs, training environments, and authorized penetration testing only.
+```
+```
